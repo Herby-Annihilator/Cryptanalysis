@@ -10,23 +10,16 @@ namespace Cryptanalysis.Model.Services
 {
 	public class ProhibitedCombinationsCriterion : IPlaintextCriterion
 	{
+		private const string FILE_WITH_COMBINATIONS = "Prohibited.txt";
 		private string[] _prohibitedCombinations;
 
-		public ProhibitedCombinationsCriterion(string fileWithProhibitedCombinations)
+		public ProhibitedCombinationsCriterion()
 		{
-			try
-			{
-				StreamReader reader = new StreamReader(fileWithProhibitedCombinations);
-				_prohibitedCombinations = reader.ReadToEnd().Split("|", StringSplitOptions.RemoveEmptyEntries);
-				reader.Close();
-			}
-			catch(Exception e)
-			{
-				_prohibitedCombinations = new string[0];
-			}
+			
 		}
 		public bool IsPlainText(string text)
 		{
+			FillProhibitedCombinationsArray();
 			SuffixAutomaton automaton = new SuffixAutomaton(text);
 			if (automaton.IsBuilted)
 			{
@@ -47,5 +40,21 @@ namespace Cryptanalysis.Model.Services
 		{
 			return await Task.Run(() => IsPlainText(text));
 		}
+
+		private void FillProhibitedCombinationsArray()
+		{
+			try
+			{
+				StreamReader reader = new StreamReader(FILE_WITH_COMBINATIONS);
+				_prohibitedCombinations = reader.ReadToEnd().Split("|", StringSplitOptions.RemoveEmptyEntries);
+				reader.Close();
+			}
+			catch (Exception e)
+			{
+				_prohibitedCombinations = new string[0];
+			}
+		}
+
+		
 	}
 }

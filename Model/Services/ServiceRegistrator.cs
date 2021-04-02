@@ -9,6 +9,8 @@ namespace Cryptanalysis.Model.Services
 	{
 		public static void RegisterServices(this IServiceCollection services)
 		{
+			services.AddSingleton<ProhibitedCombinationsCriterion>();
+			services.AddSingleton<ColumnPermutationCipherDecryptor>();
 			return;
 		}
 	}
