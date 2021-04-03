@@ -25,7 +25,7 @@ namespace Cryptanalysis.Model.Services
 			{
 				for (int i = 0; i < _prohibitedCombinations.Length; i++)
 				{
-					if (automaton.FindConditionForSubstring(_prohibitedCombinations[i]) != 0)
+					if (automaton.CountSubstringOccurences(_prohibitedCombinations[i]) != 0)
 						return false;
 				}
 			}
